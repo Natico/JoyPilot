@@ -1,31 +1,44 @@
-const gamepadManager = new JoyPilot(0.1, 16,);
+const joyPilot = new JoyPilot(0.1, 16,);
 
-gamepadManager.onPress = (buttonName, gamepadIndex) => {
-    console.log(`${buttonName} pressed on Gamepad ${gamepadIndex}`);
+joyPilot.onPress = (buttonName, gamepadIndex, value) => {
+    console.log(`${buttonName} pressed on Gamepad ${gamepadIndex} with value : ${value}`);
 };
 
-gamepadManager.onRelease = (buttonName, gamepadIndex) => {
-    console.log(`${buttonName} released on Gamepad ${gamepadIndex}`);
+joyPilot.onRelease = (buttonName, gamepadIndex, value) => {
+    console.log(`${buttonName} released on Gamepad ${gamepadIndex} with value : ${value}`);
 };
 
-gamepadManager.onHold = (buttonName, gamepadIndex) => {
-    console.log(`${buttonName} held on Gamepad ${gamepadIndex}`);
+joyPilot.onHold = (buttonName, gamepadIndex, value) => {
+    console.log(`${buttonName} held on Gamepad ${gamepadIndex} with value : ${value}`);
 };
 
-gamepadManager.onStickMove = (stickName, gamepadIndex, axesData) => {
+
+
+joyPilot.onStickMove = (stickName, gamepadIndex, axesData) => {
     console.log(`Analog Stick ${stickName} moved on Gamepad ${gamepadIndex}`, axesData);
 };
 
-gamepadManager.onStickRelease = (stickName, gamepadIndex, axesData) => {
+joyPilot.onStickRelease = (stickName, gamepadIndex, axesData) => {
     console.log(`Analog Stick ${stickName} released on Gamepad ${gamepadIndex}`, axesData);
 };
 
 
 // شروع تست با اتصال گیم‌پد
 window.addEventListener("gamepadconnected", (event) => {
-    gamepadManager.connectGamepad(event.gamepad);
+    joyPilot.connectGamepad(event.gamepad);
 });
 
 window.addEventListener("gamepaddisconnected", (event) => {
-    gamepadManager.disconnectGamepad(event.gamepad);
+    joyPilot.disconnectGamepad(event.gamepad);
 });
+
+
+
+
+joyPilot.onConnect = (gamepadIndex) => {
+    console.log(`Gamepad ${gamepadIndex} connected`);
+};
+
+joyPilot.onDisconnect = (gamepadIndex) => {
+    console.log(`Gamepad ${gamepadIndex} disconnected`);
+};

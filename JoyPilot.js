@@ -8,6 +8,8 @@ class JoyPilot {
         this.onHold = null;
         this.onStickMove = null;
         this.onStickRelease = null;
+        this.onConnect = null;
+        this.onDisconnect = null;
         this.previousAxes = {};
         this.previousButtons = {};
         this.buttonMap = {
@@ -38,11 +40,13 @@ class JoyPilot {
 
     connectGamepad(gamepad) {
         this.gamepads[gamepad.index] = gamepad;
+        if (this.onConnect) this.onConnect(gamepad.index);
         this.startLoop();
     }
 
     disconnectGamepad(gamepad) {
         delete this.gamepads[gamepad.index];
+        if (this.onDisconnect) this.onDisconnect(gamepad.index);
         if (Object.keys(this.gamepads).length === 0) {
             this.stopLoop();
         }
@@ -67,13 +71,14 @@ class JoyPilot {
                 // بررسی دکمه‌ها
                 gamepad.buttons.forEach((button, buttonIndex) => {
                     const pressed = button.pressed;
+                    const value = button.value;  // مقدار فشار
                     const buttonName = this.buttonMap[buttonIndex] || `Button ${buttonIndex}`;
                     if (pressed && !this.previousButtons[gamepadIndex]?.[buttonIndex]) {
-                        if (this.onPress) this.onPress(buttonName, gamepadIndex);
+                        if (this.onPress) this.onPress(buttonName, gamepadIndex, value);
                     } else if (!pressed && this.previousButtons[gamepadIndex]?.[buttonIndex]) {
-                        if (this.onRelease) this.onRelease(buttonName, gamepadIndex);
+                        if (this.onRelease) this.onRelease(buttonName, gamepadIndex, value);
                     } else if (pressed) {
-                        if (this.onHold) this.onHold(buttonName, gamepadIndex);
+                        if (this.onHold) this.onHold(buttonName, gamepadIndex, value);
                     }
                     this.previousButtons[gamepadIndex] = this.previousButtons[gamepadIndex] || [];
                     this.previousButtons[gamepadIndex][buttonIndex] = pressed;
