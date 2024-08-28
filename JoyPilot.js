@@ -1,5 +1,5 @@
 class JoyPilot {
-    constructor(tolerance = 0.1, updateRate = 16) {
+    constructor(tolerance = 0.1, updateRate = 16, buttonMap, stickMap) {
         this.tolerance = tolerance;
         this.updateRate = updateRate;
         this.gamepads = [];
@@ -12,7 +12,7 @@ class JoyPilot {
         this.onDisconnect = null;
         this.previousAxes = {};
         this.previousButtons = {};
-        this.buttonMap = {
+        this.buttonMap = buttonMap || {
             0: 'A',
             1: 'B',
             2: 'X',
@@ -30,7 +30,7 @@ class JoyPilot {
             14: 'DPad Left',
             15: 'DPad Right'
         };
-        this.stickMap = {
+        this.stickMap = stickMap ||{
             0: 'Left Stick X',
             1: 'Left Stick Y',
             2: 'Right Stick X',
