@@ -12,6 +12,7 @@ class JoyPilot {
         this.onDisconnect = null;
         this.previousAxes = {};
         this.previousButtons = {};
+        this.isStickReleased = {}; // برای ردیابی وضعیت رها شدن استیک
         this.buttonMap = buttonMap || {
             0: 'A',
             1: 'B',
@@ -30,7 +31,7 @@ class JoyPilot {
             14: 'DPad Left',
             15: 'DPad Right'
         };
-        this.stickMap = stickMap ||{
+        this.stickMap = stickMap || {
             0: 'Left Stick X',
             1: 'Left Stick Y',
             2: 'Right Stick X',
@@ -40,6 +41,8 @@ class JoyPilot {
 
     connectGamepad(gamepad) {
         this.gamepads[gamepad.index] = gamepad;
+        this.previousAxes[gamepad.index] = this._initializeAxesData();
+        this.isStickReleased[gamepad.index] = false;
         if (this.onConnect) this.onConnect(gamepad.index);
         this.startLoop();
     }
@@ -64,6 +67,14 @@ class JoyPilot {
         this.updateGamepadState();
     }
 
+    _initializeAxesData() {
+        const axesData = {};
+        for (const key in this.stickMap) {
+            axesData[this.stickMap[key]] = 0;
+        }
+        return axesData;
+    }
+
     updateGamepadState() {
         const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
         gamepads.forEach((gamepad, gamepadIndex) => {
@@ -85,24 +96,30 @@ class JoyPilot {
                 });
 
                 // بررسی محورهای اهرم
-                const axesData = {};
+                const axesData = this.previousAxes[gamepadIndex];
+                let isStickMoved = false;
+
                 gamepad.axes.forEach((axisValue, axisIndex) => {
                     const stickName = this.stickMap[axisIndex] || `Stick ${axisIndex}`;
-                    axesData[stickName] = axisValue;
-                    
                     if (Math.abs(axisValue) > this.tolerance) {
-                        if (this.onStickMove) {
-                            this.onStickMove(stickName, gamepadIndex, axesData);
-                        }
-                        this.previousAxes[gamepadIndex] = this.previousAxes[gamepadIndex] || {};
-                        this.previousAxes[gamepadIndex][axisIndex] = axisValue;
-                    } else {
-                        if (this.onStickRelease && this.previousAxes[gamepadIndex]?.[axisIndex] !== undefined) {
-                            this.onStickRelease(stickName, gamepadIndex, axesData);
-                            this.previousAxes[gamepadIndex][axisIndex] = undefined;
-                        }
+                        axesData[stickName] = axisValue;
+                        isStickMoved = true;
+                        this.isStickReleased[gamepadIndex] = false;
+                    } else if (axesData[stickName] !== 0) {
+                        axesData[stickName] = 0;
                     }
                 });
+
+                if (isStickMoved) {
+                    if (this.onStickMove) {
+                        this.onStickMove(null, gamepadIndex, { ...axesData });
+                    }
+                } else if (!this.isStickReleased[gamepadIndex]) {
+                    if (this.onStickRelease) {
+                        this.onStickRelease(null, gamepadIndex, { ...axesData });
+                    }
+                    this.isStickReleased[gamepadIndex] = true; // ثبت وضعیت رها شدن
+                }
             }
         });
     }

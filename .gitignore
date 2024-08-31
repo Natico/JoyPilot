@@ -24,3 +24,4 @@ TestResults.xml
 #node_module folder
 /node_modules
 package-lock.json
+/test

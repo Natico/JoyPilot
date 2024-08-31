@@ -1,15 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gamepad Test</title>
+    <style>
+        .circle {
+            width: 100px;
+            height: 100px;
+            border: 1px solid #9c9c9c63;
+            border-radius: 50%;
+            position: relative;
+            margin: 50px;
+            float: left;
+        }
+
+        .circle-point {
+            width: 60px;
+            height: 60px;
+            background-color: #1d9cad87;
+            border-radius: 50%;
+            position: absolute;
+            top: calc(50% - 30px);
+            left: calc(50% - 30px);
+            border: 1px solid #218bba;
+        }
+    </style>
 </head>
+
 <body>
     <h1>Gamepad Test</h1>
     <div id="gamepad-info"></div>
 
-    <script src="JoyPilot.js"></script>
+    <div class="axe-left">
+        <div id="AXIS_0">Left Stick X : <span>0</span></div>
+        <div id="AXIS_1">Left Stick Y : <span>0</span></div>
+        <div id="AXIS_2">Right Stick X : <span>0</span></div>
+        <div id="AXIS_3">Right Stick Y : <span>0</span></div>
+    </div>
+
+
+
+    <div>
+        <div class="circle circle-left">
+            <div class="circle-point"></div>
+        </div>
+    
+        <div class="circle circle-right">
+            <div class="circle-point"></div>
+        </div>
+    </div>
+
+
+
+
+    <script src="../../JoyPilot.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>
