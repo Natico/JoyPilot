@@ -26,16 +26,16 @@ class JoyPilot {
             9: 'Start',
             10: 'LS',
             11: 'RS',
-            12: 'DPad Up',
-            13: 'DPad Down',
-            14: 'DPad Left',
-            15: 'DPad Right'
+            12: 'DPad_Up',
+            13: 'DPad_Down',
+            14: 'DPad_Left',
+            15: 'DPad_Right',
         };
         this.stickMap = stickMap || {
-            0: 'Left Stick X',
-            1: 'Left Stick Y',
-            2: 'Right Stick X',
-            3: 'Right Stick Y'
+            0: 'Left_Stick_X',
+            1: 'Left_Stick_Y',
+            2: 'Right_Stick_X',
+            3: 'Right_Stick_Y'
         };
     }
 
