@@ -12,31 +12,9 @@ class JoyPilot {
         this.onDisconnect = null;
         this.previousAxes = {};
         this.previousButtons = {};
-        this.isStickReleased = {}; // برای ردیابی وضعیت رها شدن استیک
-        this.buttonMap = buttonMap || {
-            0: 'A',
-            1: 'B',
-            2: 'X',
-            3: 'Y',
-            4: 'LB',
-            5: 'RB',
-            6: 'LT',
-            7: 'RT',
-            8: 'Back',
-            9: 'Start',
-            10: 'LS',
-            11: 'RS',
-            12: 'DPad_Up',
-            13: 'DPad_Down',
-            14: 'DPad_Left',
-            15: 'DPad_Right',
-        };
-        this.stickMap = stickMap || {
-            0: 'Left_Stick_X',
-            1: 'Left_Stick_Y',
-            2: 'Right_Stick_X',
-            3: 'Right_Stick_Y'
-        };
+        this.isStickReleased = {};
+        this.buttonMap = buttonMap || {};
+        this.stickMap = stickMap || {};
     }
 
     connectGamepad(gamepad) {
@@ -79,10 +57,10 @@ class JoyPilot {
         const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
         gamepads.forEach((gamepad, gamepadIndex) => {
             if (gamepad) {
-                // بررسی دکمه‌ها
+                
                 gamepad.buttons.forEach((button, buttonIndex) => {
                     const pressed = button.pressed;
-                    const value = button.value;  // مقدار فشار
+                    const value = button.value; 
                     const buttonName = this.buttonMap[buttonIndex] || `Button ${buttonIndex}`;
                     if (pressed && !this.previousButtons[gamepadIndex]?.[buttonIndex]) {
                         if (this.onPress) this.onPress(buttonName, gamepadIndex, value);
@@ -118,7 +96,7 @@ class JoyPilot {
                     if (this.onStickRelease) {
                         this.onStickRelease(null, gamepadIndex, { ...axesData });
                     }
-                    this.isStickReleased[gamepadIndex] = true; // ثبت وضعیت رها شدن
+                    this.isStickReleased[gamepadIndex] = true; 
                 }
             }
         });

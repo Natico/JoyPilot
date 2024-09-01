@@ -23,13 +23,23 @@ const stickMap = {
     3: 'Right_Stick_Y'
 };
 
-const joyPilot = new JoyPilot(0.1, 16,);
+const joyPilot = new JoyPilot(0.1, 16,buttonMap, stickMap);
 
 joyPilot.onPress = (buttonName, gamepadIndex, value) => {
     console.log(`${buttonName} pressed on Gamepad ${gamepadIndex} with value : ${value}`);
     const buttonElement = document.getElementById(`button-${buttonName}`);
     if (buttonElement) {
         buttonElement.classList.add('active');
+        buttonElement.innerText = `${buttonName} (${value.toFixed(2)})`;
+    }
+};
+
+joyPilot.onHold = (buttonName, gamepadIndex, value) => {
+    console.log(`${buttonName} held on Gamepad ${gamepadIndex} with value : ${value}`);
+    const buttonElement = document.getElementById(`button-${buttonName}`);
+    if (buttonElement) {
+        buttonElement.classList.add('active');
+        buttonElement.innerText = `${buttonName} (${value.toFixed(2)})`;
     }
 };
 
@@ -38,12 +48,13 @@ joyPilot.onRelease = (buttonName, gamepadIndex, value) => {
     const buttonElement = document.getElementById(`button-${buttonName}`);
     if (buttonElement) {
         buttonElement.classList.remove('active');
+        buttonElement.innerText = `${buttonName} (${value.toFixed(2)})`;
+        setTimeout(() => {
+            buttonElement.innerText = buttonName; 
+        }, 500);
     }
 };
 
-joyPilot.onHold = (buttonName, gamepadIndex, value) => {
-    console.log(`${buttonName} held on Gamepad ${gamepadIndex} with value : ${value}`);
-};
 
 
 
@@ -53,7 +64,7 @@ joyPilot.onStickMove = (stickName, gamepadIndex, axesData) => {
 };
 
 joyPilot.onStickRelease = (stickName, gamepadIndex, axesData) => {
-    console.log(`Analog Stick ${stickName} released on Gamepad ${gamepadIndex}`, axesData);
+    //console.log(`Analog Stick ${stickName} released on Gamepad ${gamepadIndex}`, axesData);
     updateEle(axesData)
 };
 

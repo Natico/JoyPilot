@@ -14,6 +14,10 @@
             position: relative;
             margin: 30px 45px;
             float: left;
+            line-height: 60px;
+            text-align: center;
+            font-size: 12px;
+            font-family: Arial, sans-serif;
         }
 
         .circle-point {
@@ -28,15 +32,15 @@
         }
 
         .button {
-            width: 60px;
+            width: 120px;
             height: 60px;
             background-color: #f0f0f0;
             border-radius: 10px;
             border: 1px solid #ccc;
             display: inline-block;
+            margin: 10px 15px;
             line-height: 60px;
             text-align: center;
-            margin: 10px 15px;
             font-size: 12px;
             font-family: Arial, sans-serif;
             transition: background-color 0.1s;
@@ -62,13 +66,23 @@
         <div id="AXIS_1">Left Stick Y : <span>0</span></div>
         <div id="AXIS_2">Right Stick X : <span>0</span></div>
         <div id="AXIS_3">Right Stick Y : <span>0</span></div>
+        <div>
+            <div class="circle circle-left">
+                <div class="circle-point" id="button-LS">LS</div>                
+            </div>
+        
+            <div class="circle circle-right">
+                <div class="circle-point" id="button-RS">RS</div>  
+                <div class="circle-point"></div>
+            </div>
+        </div>
     </div>
 
 
 
     <div id="buttons-container">
 
-        <div>
+        <div class="wrapper-btns">
             <div class="button" id="button-A">A</div>
             <div class="button" id="button-B">B</div>
             <div class="button" id="button-X">X</div>
@@ -90,18 +104,8 @@
         <div>
             <div class="button" id="button-Back">Back</div>
             <div class="button" id="button-Start">Start</div>
-            <div class="button" id="button-LS">LS</div>
-            <div class="button" id="button-RS">RS</div>
         </div>
-        <div>
-            <div class="circle circle-left">
-                <div class="circle-point"></div>
-            </div>
-        
-            <div class="circle circle-right">
-                <div class="circle-point"></div>
-            </div>
-        </div>
+
     </div>
 
     <script src="../../JoyPilot.js"></script>
