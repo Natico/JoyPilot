@@ -16,7 +16,7 @@ You can use JoyPilot to easily manage gamepad input in your web-based projects. 
 
 import JoyPilot from 'joypilot';
 
-```bash
+```
 const buttonMap = {
   0: 'A',
   1: 'B',
@@ -44,9 +44,11 @@ const stickMap = {
 };
 
 const joyPilot = new JoyPilot(0.1, 16, buttonMap, stickMap);
+```
 
 2. Set up event listeners:
 
+```
 joyPilot.onPress = (buttonName, gamepadIndex, value) => {
   console.log(`${buttonName} pressed on Gamepad ${gamepadIndex} with value : ${value}`);
 };
@@ -76,7 +78,8 @@ window.addEventListener("gamepadconnected", (event) => {
 window.addEventListener("gamepaddisconnected", (event) => {
   joyPilot.disconnectGamepad(event.gamepad);
 });
-```bash
+
+```
 
 ## License
 
