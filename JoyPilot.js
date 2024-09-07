@@ -73,7 +73,7 @@ class JoyPilot {
                     this.previousButtons[gamepadIndex][buttonIndex] = pressed;
                 });
 
-                // بررسی محورهای اهرم
+              
                 const axesData = this.previousAxes[gamepadIndex];
                 let isStickMoved = false;
 
